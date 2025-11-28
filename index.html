@@ -8,19 +8,32 @@
     <script defer src="app.js"></script>
   </head>
   <body>
-    <header>
-      <input type="color" id="color-input" class="color-input"/>
-      <select id="scheme-dropdown" class="dropdown">
-        <option value="monochromatic">Monochromatic</option>
-        <option value="analogous">Analogous</option>
-        <option value="complementary">Complementary</option>
-        <option value="triadic">Triadic</option>
-        <option value="tetradic">Tetradic</option>
-      </select>
-      <button id="get-scheme-btn" class="btn primary" >Get color scheme</button>
-    </header>
-    <main>
-      <section class="panel color-scheme-panel" aria-labelledby="color-scheme-heading">
-        <ul id="color-scheme-list"></ul>
-      </section>
-    </main>
+    <div class="app-container">
+      <header>
+        <input type="color" id="seed-color-input" class="seed-color-input" />
+        <select id="scheme-dropdown" class="dropdown">
+          <option value="monochrome">Monochrome</option>
+          <option value="monochrome-dark">Monochrome-dark</option>
+          <option value="monochrome-light">Monochrome-light</option>
+          <option value="analogic">Analogic</option>
+          <option value="complement">Complement</option>
+          <option value="Analogic-complement">Analogic-complement</option>
+          <option value="triad">Triad</option>
+        </select>
+        <button id="get-scheme-btn" class="btn primary">
+          Get color scheme
+        </button>
+      </header>
+      <main>
+        <section
+          class="panel scheme-colors-panel"
+          aria-labelledby="scheme-colors-heading"
+        >
+          <ul id="scheme-colors-list" class="scheme-colors-list"></ul>
+        </section>
+      </main>
+    </div>
+    <!-- toast -->
+    <aside id="toast" class="toast" role="status" aria-live="polite" aria-hidden="true">toast</aside>
+  </body>
+</html>
