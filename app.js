@@ -25,17 +25,34 @@ const getSchemeBtn = document.getElementById("get-scheme-btn");
 const schemeColorsList = document.getElementById("scheme-colors-list");
 
 // add event listener to button
-getSchemeBtn.addEventListener("click", fetchColorScheme);
+if (getSchemeBtn) {
+  getSchemeBtn.addEventListener("click", fetchColorScheme);
+}
+
+// init fetch
+if (schemeColorsList) {
+  initColorScheme();
+}
 
 // function to fetch and display color scheme
 function fetchColorScheme() {
+  if (!schemeColorsList) {
+    console.error("schemeColorsList element not found");
+    return;
+  }
+
   const seedColor = seedColorInput.value.slice(1); // Remove '#' from color value
   const schemeMode = schemeDropdown.value;
 
   fetch(
-    `https://www.thecolorapi.com/scheme?&mode=${schemeMode}&count=5&hex=${seedColor}`
+    `https://www.thecolorapi.com/scheme?mode=${schemeMode}&count=5&hex=${seedColor}`
   )
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
       const colors = data.colors.map((color) => color.hex.value);
       schemeColorsList.innerHTML = ""; // Clear previous colors
@@ -60,45 +77,87 @@ function fetchColorScheme() {
       });
     })
     .catch((error) => {
+      // Silently ignore errors during page reloads (CSS save triggers reload)
+      if (
+        error.name === "TypeError" ||
+        error.message.includes("Failed to fetch")
+      ) {
+        console.warn("Request interrupted (likely due to page reload)");
+        return;
+      }
       console.error("Error fetching color data:", error);
-      alert("Failed to fetch color scheme. Please try again.");
+      // Only show alert for actual API errors
+      if (error.message && !error.message.includes("Failed to fetch")) {
+        alert("Failed to fetch color scheme. Please try again.");
+      }
     });
 }
 
-// init fetch
-const initColor = "6366f1"; // indigo-500
-const initScheme = "monochrome";
+// init fetch function
+function initColorScheme() {
+  if (!schemeColorsList) {
+    console.error("schemeColorsList element not found");
+    return;
+  }
 
-fetch(
-  `https://www.thecolorapi.com/scheme?&mode=${initScheme}&count=5&hex=${initColor}`
-)
-  .then((response) => response.json())
-  .then((data) => {
-    const colors = data.colors.map((color) => color.hex.value);
-    colors.forEach((color) => {
-      const listItem = document.createElement("li");
-      listItem.className = "color-item";
-      listItem.innerHTML = `
+  const initColor = "6366f1"; // indigo-500
+  const initScheme = "monochrome";
+
+  fetch(
+    `https://www.thecolorapi.com/scheme?mode=${initScheme}&count=5&hex=${initColor}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const colors = data.colors.map((color) => color.hex.value);
+      schemeColorsList.innerHTML = ""; // Clear previous colors
+      colors.forEach((color) => {
+        const listItem = document.createElement("li");
+        listItem.className = "color-item";
+        listItem.innerHTML = `
             <div class="color-bar" style="background-color: ${color};"></div>
             <p class="color-code">${color}</p>
         `;
-      listItem.addEventListener("click", () => {
-        navigator.clipboard
-          .writeText(color)
-          .then(() => {
-            showToast(`Color ${color} copied to clipboard!`);
-          })
-          .catch((err) => {
-            console.error("Failed to copy color: ", err);
-          });
+        listItem.addEventListener("click", () => {
+          navigator.clipboard
+            .writeText(color)
+            .then(() => {
+              showToast(`Color ${color} copied to clipboard!`);
+            })
+            .catch((err) => {
+              console.error("Failed to copy color: ", err);
+            });
+        });
+        schemeColorsList.appendChild(listItem);
       });
-      schemeColorsList.appendChild(listItem);
+    })
+    .catch((error) => {
+      console.log(error)
+      console.table({
+        name: error.name,
+        message: error.message
+      });
+      // Silently ignore errors during page reloads (CSS save triggers reload)
+      if (
+        error.name === "TypeError" ||
+        error.message.includes("Failed to fetch")
+      ) {
+        console.log(error)
+        console.warn("Request interrupted (likely due to page reload)");
+        return;
+      }
+      console.error("Error fetching color data:", error);
+      // Only show alert for actual API errors
+      if (error.message && !error.message.includes("Failed to fetch")) {
+        alert("Failed to fetch color scheme. Please try again.");
+      }
     });
-  })
-  .catch((error) => {
-    console.error("Error fetching color data:", error);
-    alert("Failed to fetch color scheme. Please try again.");
-  });
+}
+
 
 function showToast(message) {
   const toast = document.getElementById("toast");
