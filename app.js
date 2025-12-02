@@ -117,11 +117,11 @@ function fetchColorScheme() {
 
 // Fetch initial scheme on load
 function initColorScheme() {
-  const initColor = "6366f1"; // indigo-500
-  const initScheme = "triad";
-  seedColorInput.value = `#${initColor}`;  
+  const DEFAULT_SEED_COLOR = "6366f1"; // indigo-500
+  const DEFAULT_SCHEME = "triad";
+  seedColorInput.value = `#${DEFAULT_SEED_COLOR}`;  
 
-  fetchScheme({ hex: initColor, mode: initScheme })
+  fetchScheme({ hex: DEFAULT_SEED_COLOR, mode: DEFAULT_SCHEME })
     .then(renderColors)
     .catch(handleFetchError);
 }
@@ -130,7 +130,9 @@ function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.classList.add("show");
+  toast.ariaHidden = "false";
   setTimeout(() => {
     toast.classList.remove("show");
+    toast.ariaHidden = "true";
   }, 2500);
 }
