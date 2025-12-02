@@ -100,12 +100,25 @@ function renderColors(colors) {
 // Create a color list item element
 function createColorListItem(color) {
   const listItem = document.createElement("li");
-  listItem.className = "color-item";
+  listItem.className = "color-scheme__item";
+  listItem.tabIndex = 0;
+  listItem.setAttribute("role", "button");
+  listItem.setAttribute("aria-label", `Copy color ${color}`);
   listItem.innerHTML = `
-      <div class="color-bar" style="background-color: ${color};"></div>
-      <p class="color-code">${color}</p>
+      <div class="color-scheme__swatch" style="background-color: ${color};"></div>
+      <p class="color-scheme__code">${color}</p>
   `;
-  listItem.addEventListener("click", () => copyColorToClipboard(color));
+  listItem.addEventListener("click", () => {
+    copyColorToClipboard(color);
+    listItem.blur();
+  });
+  listItem.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      copyColorToClipboard(color);
+      listItem.blur();
+    }
+  });
   return listItem;
 }
 
@@ -180,10 +193,10 @@ function showToast(message, colorHex) {
   toast.appendChild(document.createTextNode(message));
 
   toast.classList.add("show");
-  toast.ariaHidden = "false";
+  toast.setAttribute("aria-hidden", "false");
   setTimeout(() => {
     toast.classList.remove("show");
-    toast.ariaHidden = "true";
+    toast.setAttribute("aria-hidden", "true");
     state.isCopying = false;
   }, 2500);
 }

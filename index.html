@@ -8,21 +8,20 @@
     <script defer src="app.js"></script>
   </head>
   <body>
-    <div class="app-container">
-      <header class="app-header">
+    <main class="color-scheme">
+      <form class="color-scheme__form">
         <label for="seed-color-input" class="visually-hidden">Seed Color</label>
         <input
           type="color"
           id="seed-color-input"
-          class="seed-color-input"
-          aria-label="Choose seed color"
+          class="color-scheme__input"
         />
         <label for="scheme-dropdown" class="visually-hidden"
           >Color Scheme Type</label
         >
         <select
           id="scheme-dropdown"
-          class="dropdown"
+          class="color-scheme__select"
           aria-label="Select color scheme type"
         >
           <option value="monochrome">Monochrome</option>
@@ -35,18 +34,17 @@
         </select>
         <button
           id="get-scheme-btn"
-          class="btn primary"
+          class="color-scheme__button"
           aria-label="Generate color scheme"
+          type="button"
         >
           Get color scheme
         </button>
-      </header>
-      <main>
-        <section class="panel scheme-colors-panel">
-          <ul id="scheme-colors-list" class="scheme-colors-list"></ul>
-        </section>
-      </main>
-    </div>
+      </form>
+      <section class="color-scheme__results" aria-label="Generated color palette" >
+        <ul id="scheme-colors-list" class="color-scheme__list"></ul>
+      </section>
+    </main>
     <!-- toast -->
     <div
       id="toast"
