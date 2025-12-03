@@ -67,7 +67,7 @@
   --color-bg-button-active: #ebebeb;
   --color-bg-toast: #f5f6f7;
   --color-text-primary: #1a1a1a;
-  --color-interactive-focus: #1a1a1a; /* フォーカス状態用 */
+  --color-interactive-focus: #1a1a1a; /* for focus states */
   --color-border: rgba(0, 0, 0, 0.1);
   --color-border-light: rgba(0, 0, 0, 0.06);
   --color-border-medium: rgba(0, 0, 0, 0.2);
@@ -363,7 +363,7 @@ body {
 
 .toast.show {
   opacity: var(--opacity-visible);
-  /* forwardsがあるとopacity0を維持できてjs側でshow classを取り除くタイミングを柔軟にできる */
+  /* forwards allows opacity:0 to persist, enabling flexible timing for JS to remove the show class */
   -webkit-animation: fadein var(--duration-toast-in) ease,
     fadeout var(--duration-toast-in) ease var(--duration-toast-visible) forwards;
   animation: fadein var(--duration-toast-in) ease,
@@ -374,7 +374,7 @@ body {
 @keyframes fadein {
   from {
     opacity: var(--opacity-hidden);
-    /* transformは指定した軸以外はdefaultに上書きされるからX軸も指定する */
+    /* transform resets unspecified axes to default, so X-axis must be explicitly included */
     transform: translateX(var(--x)) translateY(var(--spacing-2));
   }
   to {

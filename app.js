@@ -1,24 +1,24 @@
-// 要件定義
-// apiから取得したカラースキームを表示し、ユーザーが選択した色をクリップボードにコピーできる機能を実装する
+// Requirements
+// Display color schemes fetched from API and implement functionality to copy user-selected colors to clipboard
 
-// 仕様
-// 1. ユーザーがカラースキームを選択できるドロップダウンメニューを作成する
-// 2. "Get color scheme"ボタンをクリックすると、選択したスキームに基づいてAPIからカラースキームを取得する
-// 3. 取得したカラースキームを画面に表示する（色バーとカラーコード）
-// 4. 各カラーコードまたは色バーをクリックすると、その色がクリップボードにコピーされる
-// 5. エラーハンドリングを実装し、API呼び出しが失敗した場合にユーザーに通知する
-// 6.ダーク・ライトモードをブラウザの設定から自動的に適用する
+// Specifications
+// 1. Create a dropdown menu for users to select color schemes
+// 2. When "Get color scheme" button is clicked, fetch color scheme from API based on selected scheme
+// 3. Display the fetched color scheme on screen (color bars and color codes)
+// 4. Copy color to clipboard when each color code or color bar is clicked
+// 5. Implement error handling to notify users when API calls fail
+// 6. Automatically apply dark/light mode based on browser settings
 
-// 設計
-// 1. HTMLでドロップダウンメニュー、ボタン、表示エリアを作成する
-// 2. JavaScriptで以下の機能を実装する
-//    - ドロップダウンの開閉と選択処理
-//    - "Get color scheme"ボタンのクリックイベントでAPIを呼び出す
-//    - APIから取得したカラースキームをDOMに反映する
-//    - クリックイベントでカラーコードをクリップボードにコピーする
-//   -  カラーコードをコピーしたときにトーストで通知する
-// ローカルストレージにinputの値とドロップダウンの値をヘッダーのbtnで保存する
-// 最初の読み込み時にローカルストレージに保存された値があればそれを使用し、なければデフォルト値を使用する
+// Designsign
+// 1. Create dropdown menu, button, and display area in HTML
+// 2. Implement the following features in JavaScript:
+//    - Dropdown open/close and selection handling
+//    - Call API on "Get color scheme" button click event
+//    - Reflect color scheme fetched from API in DOM
+//    - Copy color code to clipboard on click event
+//    - Show toast notification when color code is copied
+//　   Save input value and dropdown value to localStorage via header button
+//      On initial load, use values saved in localStorage if available, otherwise use default values
 
 // grab DOM elements
 const seedColorInput = document.getElementById("seed-color-input");
@@ -52,7 +52,6 @@ function getSettingsFromLocalStorage() {
     localStorage.getItem(CONFIG.STORAGE_KEYS.SCHEME) || CONFIG.DEFAULT_SCHEME;
   return { seedColor, scheme };
 }
-
 if (form) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
