@@ -35,4 +35,4 @@ Every line was **reviewed, tested, and either kept with confidence or rewritten/
 
 ---
 
-Made with ❤️ by [@shotaroihara](https://github.com/shotaro-dev) • [MIT Licensed](LICENSE)
+Made with ❤️ by [@shotaro-dev](https://github.com/shotaro-dev) • [MIT Licensed](LICENSE)
