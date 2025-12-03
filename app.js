@@ -195,10 +195,8 @@ function showToast(message, colorHex) {
   toast.appendChild(document.createTextNode(message));
 
   toast.classList.add("show");
-  toast.setAttribute("aria-hidden", "false");
   setTimeout(() => {
     toast.classList.remove("show");
-    toast.setAttribute("aria-hidden", "true");
     state.isCopying = false;
   }, 2500);
 }
