@@ -6,7 +6,7 @@
 
 A simple and elegant color scheme generator built with vanilla JavaScript.
 
-This project is based on [scrimba](https://scrimba.com/) solo project.
+This project is based on [Scrimba](https://scrimba.com/) solo project.
 
 ## How this project was built
 
